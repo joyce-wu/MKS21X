@@ -1,0 +1,9 @@
+git clone <ssh repo link copied from github> clones repo onto local computer
+
+git add README.md (adds all modified and new files in the current directory)
+
+git status (shows what files were changed)
+
+git commit -m "message" (commits the chamges you made with the message
+
+git push (adds changes to the online git version)
