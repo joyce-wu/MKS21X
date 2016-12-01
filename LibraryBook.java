@@ -26,13 +26,7 @@ public abstract class LibraryBook extends Book implements Comparable<LibraryBook
     }
 
     public int compareTo(LibraryBook book){
-	if(book.author().equals(author()) &&
-	   book.title().equals(title()) &&
-	   book.ISBN().equals(ISBN()) &&
-	   book.callNumber().equals(callNumber)){
-	    return 0;
-	}
-	else{ return -1; }
+	return callNumber.compareTo(book.callNumber());
     }
     
 	
