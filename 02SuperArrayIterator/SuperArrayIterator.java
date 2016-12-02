@@ -2,9 +2,9 @@ public class SuperArrayIterator implements Iterator<String>{
     private SuperArray ary;
     private int index;
 
-    public SuperArrayIterator(SuperArray ary, int index){
+    public SuperArrayIterator(SuperArray ary){
 	this.ary = ary;
-	this.index = index;
+	index = 0;
     }
 
     public SuperArray ary(){
