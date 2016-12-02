@@ -1,0 +1,35 @@
+public class SuperArrayIterator implements Iterator<String>{
+    private SuperArray ary;
+    private int index;
+
+    public SuperArrayIterator(SuperArray ary, int index){
+	this.ary = ary;
+	this.index = index;
+    }
+
+    public SuperArray ary(){
+	return SuperArray;
+    }
+    public setAry(SuperArray newAry){
+	ary = newAry;
+    }
+    public int index(){
+	return index;
+    }
+    public void setIndex(int i){
+	index = i;
+    }
+    
+    public boolean hasNext(){
+	return index+1 < ary.size()
+    }
+
+    public String next(){
+	return ary.get(index+1);
+    }
+
+    public void remove(){
+	throw new UnsupportedOperationException();
+    }
+
+}
