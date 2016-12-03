@@ -1,11 +1,13 @@
+import java.util.*;
+
 public class SuperArray implements Iterable<String>{
-    private int[] data;
+    private String[] data;
     private int size;
 
     
     public SuperArray(){
 	size = 0;
-	data = new int[10];
+	data = new String[10];
     }
 
     public SuperArray(int len){
@@ -13,11 +15,11 @@ public class SuperArray implements Iterable<String>{
 	    throw new IllegalArgumentException();
 	}
 	size = 0;
-	data = new int[len];
+	data = new String[len];
     }
 	
 
-    public int get(int i){
+    public String get(int i){
 	if(i<0 || i>=size()){
 	    throw new IndexOutOfBoundsException();
 	}
@@ -33,16 +35,16 @@ public class SuperArray implements Iterable<String>{
     }
 
    
-    public int set(int n, int value){
+    public String set(int n, String value){
 	if(n<0 || n>=size()){
 	    throw new IndexOutOfBoundsException();
 	}
-	int org = data[n];
+	String org = data[n];
 	data[n] = value;
 	return org;
     }
     
-    public boolean add(int n){
+    public boolean add(String  n){
 	if(size() == data.length){
 	    grow();
 	}
@@ -51,37 +53,14 @@ public class SuperArray implements Iterable<String>{
 	return true;
     }
 
-    // public void add(int index, int element){
-    // 	if(index<0 || index >= size()){
-    // 	    throw new IndexOutOfBoundsException();
-    // 	}
-    //   	if(size() >= data.length){
-    // 	    grow();
-    // 	}
-    // 	int[] ary = new int[data.length];
-    // 	for(int i = 0; i<data.length; i++){
-    // 	    if(i<index){
-    // 		ary[i] = data[i];
-    // 	    }
-    // 	    else if(i==index){
-    // 		ary[i] = element;
-    // 	    }
-    // 	    else{
-    // 		ary[i] = data[i-1];
-    // 	    }
-    // 	}
-    // 	size++;
-    // 	data = ary;
-    // 	System.out.println(toString());
-    // }
 
-    public void add(int index, int element){
+    public void add(int index, String element){
 	if (index < 0 || index > size())
 	    throw new IndexOutOfBoundsException("Invalid index");
 	if (data.length > size){
 	    size += 1;
-	    for (int x = size - 1; x > index; x--){
-		set(x, data[x-1]);
+	    for (int i = size - 1; i > index; i--){
+		set(i, data[i-1]);
 	    }
 	    set(index, element);
 	}
@@ -93,19 +72,19 @@ public class SuperArray implements Iterable<String>{
 
     
     public void grow(){
-        int[] ary = new int[data.length*2];
+        String[] ary = new String[data.length*2];
 	for(int i = 0; i<data.length;i++){
 	    ary[i] = data[i];
 	}
 	data = ary;
     }
 
-    public int remove(int index){
+    public String remove(int index){
 	if(index<0 || index>=size()){
 	    throw new IndexOutOfBoundsException();
 	}
-	int ret = data[index];
-	int[] ary = new int[data.length];
+	String ret = data[index];
+	String[] ary = new String[data.length];
 	for(int i = 0; i<data.length-1; i++){
 	    if(i<index){
 		ary[i] = data[i];
@@ -124,10 +103,10 @@ public class SuperArray implements Iterable<String>{
 	    return "[]";
 	}
 	String newstr = "[";
-	for(int i = 0; i<data.length-1; i++){
+	for(int i = 0; i<size()-1; i++){
 	    newstr += data[i] + ", ";
 	}
-	newstr +=  data[data.length-1] + "]";
+	newstr +=  data[size-1] + "]";
 	return newstr;
     }
     
@@ -150,8 +129,8 @@ public class SuperArray implements Iterable<String>{
     	return newstr;
     }
 
-    public int[] toArray(){
-	int[] ary = new int[data.length];
+    public String[] toArray(){
+	String[] ary = new String[data.length];
 	for(int i = 0; i<data.length; i++){
 	    ary[i] = data[i];
 	}
@@ -166,18 +145,18 @@ public class SuperArray implements Iterable<String>{
 	return size == 0;
     }
 
-    public int indexOf(int i){
+    public int indexOf(String i){
 	for(int n = 0; n < data.length; n++){
-	    if(data[n] == i){
+	    if(data[n].equals(i)){
 		return n;
 	    }
 	}
 	return -1;
     }
 
-    public int lastIndexOf(int i){
-	for(int n=data.length-1; n>=0; n--){
-	    if(data[n] == i){
+    public int lastIndexOf(String i){
+	for(int n=size()-1; n>=0; n--){
+	    if(data[n].equals(i)){
 		return n;
 	    }
 	}
@@ -185,7 +164,7 @@ public class SuperArray implements Iterable<String>{
     }
 
     public void trimToSize(){
-	int[] ary = new int[size];
+	String[] ary = new String[size];
 	for(int i = 0; i < size; i++){
 	    ary[i] = data[i];
 	}
@@ -193,51 +172,7 @@ public class SuperArray implements Iterable<String>{
     }
 
     public Iterator<String> iterator(){
-	return SuperArrayIterator(data);
+	return new SuperArrayIterator(this);
     }
-
-    //   public static void main(String[]args){
-    // 	SuperArray s = new SuperArray();
-    // 	s.add(1);
-    // 	s.add(2);
-    // 	s.add(6);
-    // 	s.add(4);
-    // 	s.add(5);
-    // 	System.out.println(s);
-    // 	System.out.println(s.size());
-    // 	OrderedSuperArray ns = new OrderedSuperArray(s.toArray());
-    // 	System.out.println(ns.toStringDebug());
-
-    // 	OrderedSuperArray z = new OrderedSuperArray();
-    // 	z.add(4);
-    // 	z.add(3);
-    // 	z.add(1);
-    // 	z.add(5);
-    // 	System.out.println(z);
-	
-    // 	OrderedSuperArray x = new OrderedSuperArray();
-    // 	System.out.println(x);
-    // 	System.out.println(x.add(3));
-    // 	//x.grow();
-    // 	System.out.println(x);
-    // 	System.out.println(x.toStringDebug());
-    // 	x.clear();
-    // 	System.out.println(x.isEmpty());
-    // 	System.out.println(x.add(7));
-    // 	//	System.out.println(x.set(0,2));
-    // 	//	x.add(0,3);
-    // 	System.out.println(x.toStringDebug());
-    // 	System.out.println(x.remove(0));
-    // 	System.out.println(x.toStringDebug());
-    // 	System.out.println(x.toArray());
-    // 	System.out.println(x.add(2));
-    // 	System.out.println(x.add(1));
-    // 	System.out.println(x.toStringDebug());
-    // 	System.out.println(x.size());
-    // 	System.out.println(x.indexOf(2));
-    // 	System.out.println(x.indexOf(3));
-    // 	System.out.println(x.lastIndexOf(2));
-    // 	System.out.println(x.lastIndexOf(5));
-    // }	
 
 }

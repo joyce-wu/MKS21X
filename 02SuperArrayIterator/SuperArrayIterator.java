@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class SuperArrayIterator implements Iterator<String>{
     private SuperArray ary;
     private int index;
@@ -8,9 +10,9 @@ public class SuperArrayIterator implements Iterator<String>{
     }
 
     public SuperArray ary(){
-	return SuperArray;
+	return ary;
     }
-    public setAry(SuperArray newAry){
+    public void setAry(SuperArray newAry){
 	ary = newAry;
     }
     public int index(){
@@ -21,11 +23,17 @@ public class SuperArrayIterator implements Iterator<String>{
     }
     
     public boolean hasNext(){
-	return index+1 < ary.size()
+	return index < ary.size();
     }
 
     public String next(){
-	return ary.get(index+1);
+	if(hasNext()){
+	    index++;
+	    return ary.get(index-1);
+	}
+	else{
+	    throw new NoSuchElementException();
+	}
     }
 
     public void remove(){
