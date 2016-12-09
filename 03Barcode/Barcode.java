@@ -25,41 +25,111 @@ public class Barcode implements Comparable<Barcode>{
 	}   
     }
 
-    // postcondition: Creates a copy of a bar code.
-    public Barcode clone(){
-	Barcode c = new Barcode(_zip);
-	return c;
-    }
-
     // postcondition: computes and returns the check sum for _zip
     private int checkSum(){
 	int sum = 0;
 	for(int i = 0; i < _zip.length(); i++){
-	    sum += Integer.parseInt(_zip.charAt[i]);
+	    sum += Integer.parseInt(_zip.substring(i, i+1));
 	}
 	return sum;
     }
 
-    public String createBarcode(){
-	String ans = "";
+    public static String toCode(String zip){
+	String ans = "|";
 	String[] c = {"||:::", ":::||", "::|:|", "::||:", ":|::|", ":|:|:",
 		":||::", "|:::|", "|::|:", "|:|::"};
-	for(int i = 0; i < _zip.length(); i++){
-	    ans += c[(int)_zip.charAt[i]];
+	for(int i = 0; i < zip.length(); i++){
+	    ans += c[Integer.parseInt(zip.substring(i, i+1))];
 	}
-	ans += c[checkSum()%10];
+	ans += c[checkSum()%10] + "|";
 	return ans;
     }
 
+    public static String toZip(String code){
+	if(code.length() == 32){
+	    throw new IllegalArgumentException("Barcodes must have a length of 32.");
+	}
+	if(code.charAt(0) == "|" && code.charAt(code.length()) == "|"){
+	    throw new IllegalArgumentException("Barcode does not end or start with |");
+	}
+	else{
+	    String ans = "";
+	    for(int i = 1; i<_zip.length()-5; i++){
+		String num = _zip.substring(i, i+5);
+		switch(num){
+		case "||:::":
+		    ans += "0";
+		    break;
+		case  ":::||":
+		    ans += "1";
+		    break;
+		case  "::|:|":
+		    ans += "2";
+		    break;
+		case "::||:":
+		    ans += "3";
+		    break;
+		case ":|::|":
+		    ans += "4";
+		    break;
+		case ":|:|:":
+		    ans += "5";
+		    break;
+		case ":||::":
+		    ans += "6";
+		    break;
+		case "|:::|":
+		    ans += "7";
+		    break;
+		case "|::|:":
+		    ans += "8";
+		    break;
+		case  "|:|::":
+		    ans += "9";
+		    break;
+		default:
+		    System.out.println("Barcode has invalid characters or is not a number.");
+		}
+	    }
+	    if(checkSum(ans.substring(0, 4))%10 != ans.substring(5)){
+		return "Checksum failed.";
+	    }
+	    return ans;
+	}
+    }
+		       
     //postcondition: format zip + check digit + barcode 
     //ex. "084518  |||:::|::|::|::|:|:|::::|||::|:|"      
     public String toString(){
-	return _zip + _checkDigit +  " " + createBarcode();
+	return _zip + _checkDigit +  " " + toCode(_zip);
     }
 
 
     // postcondition: compares the zip + checkdigit, in numerical order. 
     public int compareTo(Barcode other){
-	_zip.compareTo(other._zip());
+	return _zip.compareTo(other._zip);
+    }
+
+    public static void main(String args[]){
+	Barcode b = new Barcode("08451");
+	Barcode c = new Barcode("99999");
+	Barcode d = new Barcode("01111");
+	System.out.println(b); //084518 |||:::|::|::|::|:|:|::::|||::|:|
+	System.out.println(b.toString().compareTo("084518 |||:::|::|::|::|:|:|::::|||::|:|")); //0
+	System.out.println(b.compareTo(b)); //0
+	System.out.println(c.compareTo(b));
+	System.out.println(d.compareTo(b));
+	/*
+	  Barcode e = new Barcode("123456");
+	  System.out.println(e);
+	*/
+	/*
+	  Barcode e = new Barcode("1234");
+	  System.out.println(e);
+	*/
+	/*
+	  Barcode e= new Barcode("12.45");
+	  System.out.println(e);
+	*/
     }
 }
