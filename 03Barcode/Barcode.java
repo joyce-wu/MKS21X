@@ -18,7 +18,7 @@ public class Barcode implements Comparable<Barcode>{
 		throw new IllegalArgumentException("please input a zipcode with 5 digits");
 	    }
 	    _zip = zip;
-	    _checkDigit = checkSum() % 10;
+	    _checkDigit = checkSum(_zip) % 10;
       
 	}catch(NumberFormatException e){
 	    throw new IllegalArgumentException("please input a zipcode as a 5 digit string");
@@ -26,10 +26,10 @@ public class Barcode implements Comparable<Barcode>{
     }
 
     // postcondition: computes and returns the check sum for _zip
-    private int checkSum(){
+    private static int checkSum(String zip){
 	int sum = 0;
-	for(int i = 0; i < _zip.length(); i++){
-	    sum += Integer.parseInt(_zip.substring(i, i+1));
+	for(int i = 0; i < zip.length(); i++){
+	    sum += Integer.parseInt(zip.substring(i, i+1));
 	}
 	return sum;
     }
@@ -37,30 +37,44 @@ public class Barcode implements Comparable<Barcode>{
     public static String toCode(String zip){
 	String ans = "|";
 	String[] c = {"||:::", ":::||", "::|:|", "::||:", ":|::|", ":|:|:",
-		":||::", "|:::|", "|::|:", "|:|::"};
-	for(int i = 0; i < zip.length(); i++){
-	    ans += c[Integer.parseInt(zip.substring(i, i+1))];
+		      ":||::", "|:::|", "|::|:", "|:|::"};
+	if(zip.length() != 5){
+	    throw new IllegalArgumentException("zipcodes must be 5 digits");
 	}
-	ans += c[checkSum()%10] + "|";
-	return ans;
+	else{
+	    for(int i = 0; i < zip.length(); i++){
+		try{
+		    ans += c[Integer.parseInt(zip.substring(i, i+1))];
+		}catch(NumberFormatException e){
+		    throw new IllegalArgumentException("zipcodes must be digits");
+		}
+	    }
+	    ans += c[checkSum(zip)%10] + "|";
+	    return ans;
+	}
     }
 
     public static String toZip(String code){
-	if(code.length() == 32){
+	if(code.length() != 32){
 	    throw new IllegalArgumentException("Barcodes must have a length of 32.");
 	}
-	if(code.charAt(0) == "|" && code.charAt(code.length()) == "|"){
+	if(!(code.substring(0,1).equals("|") && code.substring(31).equals("|"))){
 	    throw new IllegalArgumentException("Barcode does not end or start with |");
 	}
 	else{
 	    String ans = "";
-	    for(int i = 1; i<_zip.length()-5; i++){
-		String num = _zip.substring(i, i+5);
+	    for(int i = 1; i<31; i++){
+		if(!(code.substring(i, i+1).equals("|") || code.substring(i,i+1).equals(":"))){
+		    throw new IllegalArgumentException("non-barcode characters are used.");
+		}
+	    }
+	    for(int i = 1; i<code.length()-5; i+=5){
+		String num = code.substring(i, i+5);
 		switch(num){
 		case "||:::":
 		    ans += "0";
 		    break;
-		case  ":::||":
+		case ":::||":
 		    ans += "1";
 		    break;
 		case  "::|:|":
@@ -84,15 +98,15 @@ public class Barcode implements Comparable<Barcode>{
 		case "|::|:":
 		    ans += "8";
 		    break;
-		case  "|:|::":
+		case "|:|::":
 		    ans += "9";
 		    break;
 		default:
-		    System.out.println("Barcode has invalid characters or is not a number.");
+		    throw new IllegalArgumentException("Barcode has invalid characters.");
 		}
 	    }
-	    if(checkSum(ans.substring(0, 4))%10 != ans.substring(5)){
-		return "Checksum failed.";
+	    if(checkSum(ans.substring(0, 5))%10 != Integer.parseInt(ans.substring(5))){
+		throw new IllegalArgumentException("Checksum failed.");
 	    }
 	    return ans;
 	}
@@ -131,5 +145,20 @@ public class Barcode implements Comparable<Barcode>{
 	  Barcode e= new Barcode("12.45");
 	  System.out.println(e);
 	*/
+	//System.out.println("To fail (too short): ");
+	//b.toCode("00");
+	//System.out.println("To fail (nondigits): ");
+	//b.toZip("ab01e");
+	//System.out.println("To fail (non-barcode characters): ");
+	//b.toZip("|a|::c|::|::|::|:|:|::::|||::|::");
+	//System.out.println("To fail (does not start or end with |): ");
+	//b.toZip("|||:::|::|::|::|:|:|::::|||::|::");
+	//System.out.println("To fail (wrong length): ");
+	//b.toZip("|||:::|::|::|::|:|:|::::|||::|:::");
+	//System.out.println("To fail: (invalid char): ");
+	//b.toZip("|:::::|::|::|::|:|:|:::::||::|:|");
+	//System.out.println(b.toZip("|||:::|::|::|::|:|:|::::|||::|:|"));
+	//System.out.println("To fail: (checkSum failed): ");
+	//b.toZip("|||:::|::|::|::|:|:|::::||:|:|:|");
     }
 }
