@@ -11,26 +11,22 @@ public class Sorts{
      *@param data  the elements to be sorted.
      */
     public static void selectionSort(int[] data){
-	int swap = 0;
-	int[] ans = new int[data.length];
-	int i = 0;
-        while(data.length > 0){
-	    if(data.length == 1){
-		ans[data.length] = data[0];
-	    }
-	    swap = smallest(Arrays.copyOfRange(data, i, data.length));
-	    ans[i] = ans[swap];
-	    ans[swap] = ans[i];
-	    i++;
-	    data = Arrays.copyOfRange(data, i, data.length);
+	int temp, orgNum;
+	for(int i = 0; i<data.length-1; i++){
+	    temp = smallest(data, i);
+	    orgNum = data[i];
+	    data[i] = data[temp];
+	    data[temp] = orgNum;
 	}
     }
+	    
 
-    public static int smallest(int[] data){
-	int small = data[0];
-	int ans = 0;
-	for(int i = 0; i < data.length; i++){
+    public static int smallest(int[] data, int start){
+	int small = data[start];
+	int ans = start;
+	for(int i = start; i < data.length; i++){
 	    if(data[i] < small){
+		small = data[i];
 		ans = i;
 	    }
 	}
@@ -39,8 +35,18 @@ public class Sorts{
 
     public static void main(String[] args){
 	int[] a = {2, -1, 5, 7, 10, 13, -900, 20000};
+	System.out.println("Orginal: " + Arrays.toString(a));
 	selectionSort(a);
-	System.out.println(a);
+	System.out.println("Sorted: " + Arrays.toString(a));
+	int[] b = {2013, 216, 216, 0, 0, -4, 88};
+	System.out.println("Orginal: " + Arrays.toString(b));
+	selectionSort(b);
+	System.out.println("Sorted: " + Arrays.toString(b));
+       	int[] c = {46, 772013, 32, 45, 1, 0, -1, 4};
+	System.out.println("Orginal: " + Arrays.toString(c));
+	selectionSort(c);
+	System.out.println("Sorted: " + Arrays.toString(c));
+
     }
     
       
