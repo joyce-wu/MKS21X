@@ -34,48 +34,30 @@ public class Sorts{
     }
 
     public static void insertionSort(int[] data){
+	int tempNum;
 	for(int i = 1; i<data.length; i++){
-	    int temp = data[i];
-	    System.out.println("Temp: " +temp);
-	    if(i==1 && data[1] < data[0]){
-		data[1] = data[0];
-		data[0] = temp;
-		System.out.println(Arrays.toString(data));
-
+	    tempNum = data[i];
+	    while(i > 0 && tempNum < data[i -1]){
+		data[i] = data[i-1];
+		i--;
 	    }
-	    else{
-		System.out.println("Index: " + i);
-		for(int n = i-1; n>-1; n--){
-		    System.out.println("N: " + n);
-		    if(temp >= data[n]){
-			System.out.println("TRUE");
-			for(int x = n +1; x<=i; x++){
-			    System.out.println("X: " + x);
-			    System.out.println(Arrays.toString(data));
-			    data[x] = data[x-1];
-			}
-			data[n] = temp;
-		    }
-		}
-	    }
-      	}
+	    data[i] = tempNum;
+	}
     }
 
-		
-
     public static void main(String[] args){
-	//int[] a = {2, -1, 5, 7, 10, 13, -900, 20000};
-	//System.out.println("Orginal: " + Arrays.toString(a));
-	//insertionSort(a);
-	//System.out.println("Sorted: " + Arrays.toString(a));
+	int[] a = {2, -1, 5, 7, 10, 13, -900, 20000};
+	System.out.println("Orginal: " + Arrays.toString(a));
+	insertionSort(a);
+	System.out.println("Sorted: " + Arrays.toString(a));
 	int[] b = {2013, 216, 216, 0, 0, -4, 88};
 	System.out.println("Orginal: " + Arrays.toString(b));
 	insertionSort(b);
 	System.out.println("Sorted: " + Arrays.toString(b));
-       	// int[] c = {46, 772013, 32, 45, 1, 0, -1, 4};
-	// System.out.println("Orginal: " + Arrays.toString(c));
-	// selectionSort(c);
-	// System.out.println("Sorted: " + Arrays.toString(c));
+       	int[] c = {46, 772013, 32, 45, 1, 0, -1, 4};
+	System.out.println("Orginal: " + Arrays.toString(c));
+	insertionSort(c);
+	System.out.println("Sorted: " + Arrays.toString(c));
 
     }
     
