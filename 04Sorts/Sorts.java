@@ -45,18 +45,32 @@ public class Sorts{
 	}
     }
 
+    public static void bubbleSort(int[] data){
+	int i = data.length-1;
+	while(i>0){
+	    for(int n = 1; n<=i; n++){
+		if(data[n] < data[n-1]){
+		    int temp = data[n-1];
+		    data[n-1] = data[n];
+		    data[n] = temp;
+       		}
+	    }
+	    i--;
+	}
+    }
+
     public static void main(String[] args){
 	int[] a = {2, -1, 5, 7, 10, 13, -900, 20000};
 	System.out.println("Orginal: " + Arrays.toString(a));
-	insertionSort(a);
-	System.out.println("Sorted: " + Arrays.toString(a));
+	bubbleSort(a);
+	// System.out.println("Sorted: " + Arrays.toString(a));
 	int[] b = {2013, 216, 216, 0, 0, -4, 88};
 	System.out.println("Orginal: " + Arrays.toString(b));
-	insertionSort(b);
+	bubbleSort(b);
 	System.out.println("Sorted: " + Arrays.toString(b));
        	int[] c = {46, 772013, 32, 45, 1, 0, -1, 4};
 	System.out.println("Orginal: " + Arrays.toString(c));
-	insertionSort(c);
+	bubbleSort(c);
 	System.out.println("Sorted: " + Arrays.toString(c));
 
     }
