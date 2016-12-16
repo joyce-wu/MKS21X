@@ -22,28 +22,31 @@ public class Sorts{
 	    
 
     public static int smallest(int[] data, int start){
-	int small = data[start];
-	int ans = start;
-	for(int i = start; i < data.length; i++){
-	    if(data[i] < small){
-		small = data[i];
-		ans = i;
-	    }
-	}
-	return ans;
+    	int small = data[start];
+    	int ans = start;
+    	for(int i = start; i < data.length; i++){
+    	    if(data[i] < small){
+    		small = data[i];
+    		ans = i;
+    	    }
+    	}
+    	return ans;
     }
 
     public static void insertionSort(int[] data){
-	int tempNum;
 	for(int i = 1; i<data.length; i++){
-	    tempNum = data[i];
-	    while(i > 0 && tempNum < data[i -1]){
+	    int temp = data[i];
+	    while(i>0 && temp<data[i-1]){
 		data[i] = data[i-1];
 		i--;
 	    }
-	    data[i] = tempNum;
+	    data[i] = temp;
 	}
     }
+
+	    
+	    
+		
 
     public static void bubbleSort(int[] data){
 	int i = data.length-1;
@@ -62,16 +65,16 @@ public class Sorts{
     public static void main(String[] args){
 	int[] a = {2, -1, 5, 7, 10, 13, -900, 20000};
 	System.out.println("Orginal: " + Arrays.toString(a));
-	bubbleSort(a);
-	// System.out.println("Sorted: " + Arrays.toString(a));
-	int[] b = {2013, 216, 216, 0, 0, -4, 88};
-	System.out.println("Orginal: " + Arrays.toString(b));
-	bubbleSort(b);
-	System.out.println("Sorted: " + Arrays.toString(b));
-       	int[] c = {46, 772013, 32, 45, 1, 0, -1, 4};
-	System.out.println("Orginal: " + Arrays.toString(c));
-	bubbleSort(c);
-	System.out.println("Sorted: " + Arrays.toString(c));
+	insertionSort(a);
+	System.out.println("Sorted: " + Arrays.toString(a));
+	// int[] b = {2013, 216, 216, 0, 0, -4, 88};
+	// System.out.println("Orginal: " + Arrays.toString(b));
+	// bubbleSort(b);
+	// System.out.println("Sorted: " + Arrays.toString(b));
+       	// int[] c = {46, 772013, 32, 45, 1, 0, -1, 4};
+	// System.out.println("Orginal: " + Arrays.toString(c));
+	// bubbleSort(c);
+	// System.out.println("Sorted: " + Arrays.toString(c));
 
     }
     
