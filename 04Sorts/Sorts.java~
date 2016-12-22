@@ -1,0 +1,41 @@
+public class Sorts{
+
+    public static String name(){
+	return "06.Wu.Joyce"; 
+    }
+
+    /**Selection sort of an int array. 
+     *Upon completion, the elements of the array will be in increasing order.
+     *@param data  the elements to be sorted.
+     */
+    public static void selectionSort(int[] data){
+	int switch;
+	int[] ans = new int[data.length];
+	int i = 0
+        while(data.length > 0){
+	    if(data.length == 1){
+		ans[data.length] = data[0];
+	    }
+	    switch = smallest(data[i, data.length]);
+	    ans[i] = ans[switch];
+	    ans[switch] = ans[i];
+	    i++;
+	    data = data[i, data.length];
+	}
+    }
+
+    public static int smallest(int[] data){
+	int small = data[i];
+	int ans = 0;
+	for(int i = 0; i < data.length; i++){
+	    if(data[i] < small){
+		ans = i;
+	    }
+	}
+	return ans;
+    }
+	    
+    
+      
+
+}
